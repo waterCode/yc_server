@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
 
-    @RequestMapping(value="/login" )
+    @RequestMapping(value="/login" ,method = RequestMethod.POST)
     public User login(@RequestBody User user){
         User test = new User("zmc","123");
         return user;

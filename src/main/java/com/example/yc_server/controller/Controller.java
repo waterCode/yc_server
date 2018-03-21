@@ -12,7 +12,7 @@ public class Controller {
 
     @RequestMapping(value="/login" )
     public User login(@RequestBody User user){
-
+        User test = new User("zmc","123");
         return user;
     }
 

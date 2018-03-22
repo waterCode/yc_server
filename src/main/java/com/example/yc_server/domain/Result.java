@@ -2,6 +2,7 @@ package com.example.yc_server.domain;
 
 public class Result {
     private boolean result = false;
+    private String message;
 
 
     public boolean isResult() {
@@ -10,5 +11,13 @@ public class Result {
 
     public void setResult(boolean result) {
         this.result = result;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

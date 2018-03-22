@@ -31,4 +31,9 @@ public class RegisterController {
         }
         return result;
     }
+
+    @PostMapping(value = "/login")
+    public Result login(@RequestBody User user){
+        return loginAndRegisterService.login(user);
+    }
 }

@@ -6,20 +6,24 @@ import com.example.yc_server.domain.SysUser;
 import com.example.yc_server.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class LoginAndRegisterService {
+public class LoginAndRegisterService implements UserDetailsService {
 
     @Autowired
     private RegisterRepository registerRepository;
 
 
     public SysUser addUser(@NonNull SysUser newUser) {
-        List<SysUser> userList = registerRepository.findByUsername(newUser.getUsername());
-        if (userList == null || userList.size() == 0) {
+        SysUser userDataBases = registerRepository.findByUsername(newUser.getUsername());
+
+        if (userDataBases !=null) {
             //可以注册
             return registerRepository.save(newUser);
         } else {
@@ -30,10 +34,10 @@ public class LoginAndRegisterService {
 
     public Result login(@NonNull SysUser user) {
         Result result = new Result();
-        List<SysUser> userList = registerRepository.findByUsername(user.getUsername());
-        if (userList.size() > 0) {
+        SysUser userDataBases = registerRepository.findByUsername(user.getUsername());
+        if (userDataBases != null) {
             //表示找到对应的用户
-            if (userList.get(0).getPassword().equals(user.getPassword())) {
+            if (userDataBases.getPassword().equals(user.getPassword())) {
                 result.setResult(true);
                 result.setMessage("登录成功");
             } else {
@@ -45,5 +49,11 @@ public class LoginAndRegisterService {
             result.setMessage("用户不存在");
         }
         return result;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        SysUser user = registerRepository.findByUsername(username);
+        return user;
     }
 }

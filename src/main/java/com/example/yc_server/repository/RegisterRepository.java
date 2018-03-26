@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RegisterRepository extends JpaRepository<SysUser,Integer> {
 
-    public List<SysUser> findByUsername(String name);
+    public SysUser findByUsername(String name);
 }

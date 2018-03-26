@@ -1,11 +1,11 @@
 package com.example.yc_server.repository;
 
-import com.example.yc_server.domain.User;
+import com.example.yc_server.domain.SysUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface RegisterRepository extends JpaRepository<User,Integer> {
+public interface RegisterRepository extends JpaRepository<SysUser,Integer> {
 
-    public List<User> findByName(String name);
+    public List<SysUser> findByUsername(String name);
 }

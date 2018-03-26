@@ -2,13 +2,10 @@ package com.example.yc_server.controller;
 
 
 import com.example.yc_server.domain.Result;
-import com.example.yc_server.domain.User;
-import com.example.yc_server.repository.RegisterRepository;
+import com.example.yc_server.domain.SysUser;
 import com.example.yc_server.service.LoginAndRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class RegisterController {
@@ -18,9 +15,9 @@ public class RegisterController {
 
 
     @PostMapping(value = "/register" )
-    public Result addUser(@RequestBody User newUser){
+    public Result addUser(@RequestBody SysUser newUser){
         Result result = new Result();
-        User user = loginAndRegisterService.addUser(newUser);
+        SysUser user = loginAndRegisterService.addUser(newUser);
         if(user == null){
             //表示注册失败
             result.setResult(false);
@@ -33,7 +30,7 @@ public class RegisterController {
     }
 
     @PostMapping(value = "/login")
-    public Result login(@RequestBody User user){
+    public Result login(@RequestBody SysUser user){
         return loginAndRegisterService.login(user);
     }
 }

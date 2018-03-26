@@ -2,7 +2,7 @@ package com.example.yc_server.service;
 
 
 import com.example.yc_server.domain.Result;
-import com.example.yc_server.domain.User;
+import com.example.yc_server.domain.SysUser;
 import com.example.yc_server.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -17,8 +17,8 @@ public class LoginAndRegisterService {
     private RegisterRepository registerRepository;
 
 
-    public User addUser(@NonNull User newUser) {
-        List<User> userList = registerRepository.findByName(newUser.getName());
+    public SysUser addUser(@NonNull SysUser newUser) {
+        List<SysUser> userList = registerRepository.findByUsername(newUser.getUsername());
         if (userList == null || userList.size() == 0) {
             //可以注册
             return registerRepository.save(newUser);
@@ -28,12 +28,12 @@ public class LoginAndRegisterService {
     }
 
 
-    public Result login(@NonNull User user) {
+    public Result login(@NonNull SysUser user) {
         Result result = new Result();
-        List<User> userList = registerRepository.findByName(user.getName());
+        List<SysUser> userList = registerRepository.findByUsername(user.getUsername());
         if (userList.size() > 0) {
             //表示找到对应的用户
-            if (userList.get(0).getPwd().equals(user.getPwd())) {
+            if (userList.get(0).getPassword().equals(user.getPassword())) {
                 result.setResult(true);
                 result.setMessage("登录成功");
             } else {

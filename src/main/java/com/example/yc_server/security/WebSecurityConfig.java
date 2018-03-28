@@ -1,5 +1,6 @@
 package com.example.yc_server.security;
 
+import com.example.yc_server.service.LoginAndRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +25,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+  /*  @Autowired
+    private UserDetailsService userDetailsService;*/
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(this.userDetailsService)
+                .userDetailsService(loginAndRegisterService())
                 .passwordEncoder(passwordEncoder());
+    }
+
+
+    @Bean
+    public UserDetailsService loginAndRegisterService() {
+        return new LoginAndRegisterService();
     }
 
     @Bean
@@ -43,6 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtAuthenticationTokenFilter();
     }
+
+
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -69,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.js"
                 ).permitAll()
                 // 对于获取token的rest api要允许匿名访问
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 

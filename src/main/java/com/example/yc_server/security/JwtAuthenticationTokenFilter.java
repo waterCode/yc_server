@@ -1,7 +1,9 @@
 package com.example.yc_server.security;
 
+import com.example.yc_server.service.LoginAndRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,8 +22,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -31,6 +32,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
+
+    @Bean
+    public UserDetailsService loginAndRegisterService() {
+        return new LoginAndRegisterService();
+    }
 
     @Override
     protected void doFilterInternal(
@@ -50,7 +56,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 // 这种情况下，我们可以不用再查询数据库，而直接采用token中的数据
                 // 本例中，我们还是通过Spring Security的 @UserDetailsService 进行了数据查询
                 // 但简单验证的话，你可以采用直接验证token是否合法来避免昂贵的数据查询
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = loginAndRegisterService().loadUserByUsername(username);
 
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {//判断是否token 是否有效
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

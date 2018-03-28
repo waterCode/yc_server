@@ -9,6 +9,12 @@ spring:
       ddl-auto: update
     show-sql: true
 
-
+  # JWT
+jwt:
+    header: Authorization
+    secret: mySecret
+    expiration: 604800
+    tokenHead: "Bearer "
 server:
   port: 8083
+

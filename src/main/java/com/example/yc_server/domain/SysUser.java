@@ -10,40 +10,17 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class SysUser implements UserDetails{ //1
+public class SysUser { //1
 	
-	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String username;
 	private String password;
-	@ManyToMany(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
-	private List<SysRole> roles;
+	private String roles;
 	
 	
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() { //2
-		List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
-		List<SysRole> roles=this.getRoles();
-		for(SysRole role:roles){
-			auths.add(new SimpleGrantedAuthority(role.getName()));
-		}
-		return auths;
-	}
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	@Override
+
 	public boolean isEnabled() {
 		return true;
 	}
@@ -66,14 +43,12 @@ public class SysUser implements UserDetails{ //1
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<SysRole> getRoles() {
+
+	public String getRoles() {
 		return roles;
 	}
-	public void setRoles(List<SysRole> roles) {
+
+	public void setRoles(String roles) {
 		this.roles = roles;
 	}
-	
-	
-	
-	
 }

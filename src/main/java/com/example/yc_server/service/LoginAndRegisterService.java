@@ -1,20 +1,17 @@
 package com.example.yc_server.service;
 
 
+
 import com.example.yc_server.domain.Result;
 import com.example.yc_server.domain.SysUser;
 import com.example.yc_server.repository.RegisterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
-public class LoginAndRegisterService implements UserDetailsService {
+public class LoginAndRegisterService  {
 
     @Autowired
     private RegisterRepository registerRepository;
@@ -51,9 +48,5 @@ public class LoginAndRegisterService implements UserDetailsService {
         return result;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser user = registerRepository.findByUsername(username);
-        return user;
-    }
+
 }

@@ -18,20 +18,20 @@ public class LoginAndRegisterService  {
 
 
     public SysUser addUser(@NonNull SysUser newUser) {
-        SysUser userDataBases = registerRepository.findByUsername(newUser.getUsername());
+        SysUser userDataBases = registerRepository.findByUserName(newUser.getUserName());
 
         if (userDataBases !=null) {
-            //可以注册
-            return registerRepository.save(newUser);
-        } else {
+            //已经存在注册
             return null;
+        } else {
+            return registerRepository.save(newUser);
         }
     }
 
 
     public Result login(@NonNull SysUser user) {
         Result result = new Result();
-        SysUser userDataBases = registerRepository.findByUsername(user.getUsername());
+        SysUser userDataBases = registerRepository.findByUserName(user.getUserName());
         if (userDataBases != null) {
             //表示找到对应的用户
             if (userDataBases.getPassword().equals(user.getPassword())) {

@@ -5,9 +5,13 @@ package com.example.yc_server.service;
 import com.example.yc_server.domain.Result;
 import com.example.yc_server.domain.SysUser;
 import com.example.yc_server.repository.RegisterRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 
 @Service
@@ -31,6 +35,7 @@ public class LoginAndRegisterService  {
 
     public Result login(@NonNull SysUser user) {
         Result result = new Result();
+        String jwtToken = "";
         SysUser userDataBases = registerRepository.findByUserName(user.getUserName());
         if (userDataBases != null) {
             //表示找到对应的用户
@@ -38,6 +43,9 @@ public class LoginAndRegisterService  {
                 result.setResult(true);
                 result.setMessage("登录成功");
                 //返回token
+                jwtToken = Jwts.builder().setSubject(user.getUserName()).claim("roles", "user").setIssuedAt(new Date())
+                        .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+                result.setToken(jwtToken);
             } else {
                 result.setResult(false);
                 result.setMessage("密码错误");

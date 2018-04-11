@@ -3,6 +3,7 @@ package com.example.yc_server.domain;
 public class Result {
     private boolean result = false;
     private String message;
+    private String Token;
 
 
     public boolean isResult() {
@@ -19,5 +20,13 @@ public class Result {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getToken() {
+        return Token;
+    }
+
+    public void setToken(String token) {
+        Token = token;
     }
 }

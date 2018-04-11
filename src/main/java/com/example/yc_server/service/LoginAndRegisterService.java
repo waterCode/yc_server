@@ -37,6 +37,7 @@ public class LoginAndRegisterService  {
             if (userDataBases.getPassword().equals(user.getPassword())) {
                 result.setResult(true);
                 result.setMessage("登录成功");
+                //返回token
             } else {
                 result.setResult(false);
                 result.setMessage("密码错误");

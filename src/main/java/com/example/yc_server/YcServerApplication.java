@@ -40,7 +40,6 @@ public class YcServerApplication {
 		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
 		registrationBean.setFilter(new JwtFilter());
 		registrationBean.addUrlPatterns("/secure/*");
-
 		return registrationBean;
 	}
 

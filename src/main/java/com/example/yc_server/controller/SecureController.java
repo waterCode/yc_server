@@ -1,7 +1,9 @@
 package com.example.yc_server.controller;
 
 
+import com.example.yc_server.domain.RegistrationForm;
 import com.example.yc_server.domain.SysUser;
+import com.example.yc_server.repository.CompetitionFromRepository;
 import com.example.yc_server.repository.RegisterRepository;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,13 @@ import java.util.List;
 @RequestMapping("/secure")
 public class SecureController {
 
+
     @Autowired
     private RegisterRepository registerRepository;
+
+    @Autowired
+    private CompetitionFromRepository competitionFromRepository;
+
 
 
     @GetMapping("/users")
@@ -44,13 +51,24 @@ public class SecureController {
         return all;
     }
 
+    @GetMapping("/participants")
+    public  List<RegistrationForm> getParticipants(HttpServletRequest request){
+        //只有管理者才有权限
+        List<RegistrationForm> all=null;
+        Claims claims = (Claims) request.getAttribute("claims");
+        String userName = claims.getSubject();
+        if(userName.equals("admin")){
+            //是管理员，则返回成员列表
+            all = competitionFromRepository.findAll();
+
+        }
+        return all;
+    }
+
     @PostMapping("/joinUs")
     public boolean JoinUs(){
         return true;
     }
 
-    @PostMapping("/joinCompetition")
-    public boolean JoinCompetition(){
-        return true;
-    }
+
 }

@@ -15,6 +15,7 @@ public class JoinTeamContoller {
     @Autowired
     CompetitionFromRepository competitionFromReprosity;
 
+
     @PostMapping(value = "/joinCompetition")
     public void joinCompetition(@RequestBody RegistrationForm form){
         if (form !=null){

@@ -1,16 +1,15 @@
 package com.example.yc_server.controller;
 
 
+import com.example.yc_server.domain.GradeTeam;
 import com.example.yc_server.domain.RegistrationForm;
 import com.example.yc_server.domain.SysUser;
 import com.example.yc_server.repository.CompetitionFromRepository;
 import com.example.yc_server.repository.RegisterRepository;
+import com.example.yc_server.repository.TeamGradeRepository;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +27,8 @@ public class SecureController {
     @Autowired
     private CompetitionFromRepository competitionFromRepository;
 
+    @Autowired
+    private TeamGradeRepository teamGradeRepository;
 
 
     @GetMapping("/users")
@@ -64,6 +65,22 @@ public class SecureController {
         }
         return all;
     }
+
+
+    @PostMapping("/submitGrade")
+    public void saveTeamGrade(@RequestBody GradeTeam gradeTeam,HttpServletRequest request){
+        Claims claims = (Claims) request.getAttribute("claims");
+        String userName = claims.getSubject();
+        gradeTeam.setScorerName(userName);
+        //如果还没评分则保存
+
+    }
+
+
+
+
+
+
 
     @PostMapping("/joinUs")
     public boolean JoinUs(){

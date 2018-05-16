@@ -32,6 +32,7 @@ public class YcServerApplication {
 	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", buildConfig()); // 4
+		source.registerCorsConfiguration("/secure/**", buildConfig()); //
 		return new CorsFilter(source);
 	}
 

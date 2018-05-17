@@ -8,11 +8,17 @@ import com.example.yc_server.repository.CompetitionFromRepository;
 import com.example.yc_server.repository.RegisterRepository;
 import com.example.yc_server.repository.TeamGradeRepository;
 import io.jsonwebtoken.Claims;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -73,6 +79,54 @@ public class SecureController {
         String userName = claims.getSubject();
         gradeTeam.setScorerName(userName);
         //如果还没评分则保存
+
+    }
+
+    @GetMapping("/getExcel")
+    public void getExcel(HttpServletResponse response) throws IOException{
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet("报名表集合");
+
+        List<RegistrationForm> registrationFormList = competitionFromRepository.findAll();
+
+        String fileName = "userinf"  + ".xls";//设置要导出的文件的名字
+        //新增数据行，并且设置单元格数据
+
+        int rowNum = 1;
+
+        String[] headers = { "id", "队长名", "队伍名", "电话号码"};
+        //headers表示excel表中第一行的表头
+
+        HSSFRow row = sheet.createRow(0);
+        //在excel表中添加表头
+
+        for(int i=0;i<headers.length;i++){
+            HSSFCell cell = row.createCell(i);
+            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
+            cell.setCellValue(text);
+        }
+
+        //在表中存放查询到的数据放入对应的列
+        for (RegistrationForm teacher : registrationFormList) {
+            HSSFRow row1 = sheet.createRow(rowNum);
+            row1.createCell(0).setCellValue(teacher.getId());
+            row1.createCell(1).setCellValue(teacher.getCaptionName());
+            row1.createCell(2).setCellValue(teacher.getDuiWuName());
+            row1.createCell(3).setCellValue(teacher.getTelephone());
+            rowNum++;
+        }
+       /* //生成文件
+        File file = new File("Y://excel/");
+        if(!file.exists()){
+            file.mkdirs();
+        }
+        File file1 = new File("Y://excel/"+fileName);
+        OutputStream out  = new FileOutputStream(file1);
+        workbook.write(out);*/
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+        //response.flushBuffer();
+        workbook.write(response.getOutputStream());
 
     }
 

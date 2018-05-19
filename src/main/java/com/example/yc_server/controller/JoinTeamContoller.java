@@ -6,10 +6,14 @@ import com.example.yc_server.domain.RegistrationForm;
 import com.example.yc_server.repository.CompetitionFromRepository;
 import com.example.yc_server.repository.JoinUsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/team")
@@ -34,34 +38,89 @@ public class JoinTeamContoller {
     }
 
     @PostMapping(value = "/joinCompetitionAll")
-    public BaseResult joinCompetitionAll(@RequestParam("uploadfile") MultipartFile file){
+    public BaseResult joinCompetitionAll(HttpServletRequest request) {
+        MultipartHttpServletRequest params = ((MultipartHttpServletRequest) request);
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request)
+                .getFiles("uploadfile");
+        saveStringData(params);
+        String captionName = params.getParameter("captionName");
+        String weChat = params.getParameter("weChat");//用队伍名+微信号作为文件夹名字
+        String path = "C:/YC/"+captionName+weChat;
+        File dir = new File(path);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
         BaseResult result = new BaseResult();
-        if (!file.isEmpty()) {
-            try {
-                // 这里只是简单例子，文件直接输出到项目路径下。
-                // 实际项目中，文件需要输出到指定位置，需要在增加代码处理。
-                // 还有关于文件格式限制、文件大小限制，详见：中配置。
-                //
-                BufferedOutputStream out = new BufferedOutputStream(
-                        new FileOutputStream(new File(file.getOriginalFilename())));
-                out.write(file.getBytes());
-                out.flush();
-                out.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                result.setResult(false);
-                return result;
-            } catch (IOException e) {
-                e.printStackTrace();
-                result.setResult(false);
-                return result;
+        if (files != null) {
+            for (MultipartFile file : files) {
+                if (!file.isEmpty()) {
+                    try {
+                        // 这里只是简单例子，文件直接输出到项目路径下。
+                        // 实际项目中，文件需要输出到指定位置，需要在增加代码处理。
+                        // 还有关于文件格式限制、文件大小限制，详见：中配置。
+                        //
+                        BufferedOutputStream out = new BufferedOutputStream(
+                                new FileOutputStream(new File(path+"/"+file.getOriginalFilename())));
+                        out.write(file.getBytes());
+                        out.flush();
+                        out.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        result.setResult(false);
+                        return result;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        result.setResult(false);
+                        return result;
+                    }
+                } else {
+                    result.setResult(false);
+                    return result;
+                }
             }
-            result.setResult(true);
-            return result;
         } else {
             result.setResult(false);
             return result;
         }
+        result.setResult(true);
+        return result;
+
+
+    }
+
+    private void saveStringData(MultipartHttpServletRequest params) {
+        String captionName = params.getParameter("captionName");
+        String zhuanYe = params.getParameter("zhuanYe");
+        String xueHao = params.getParameter("xueHao");
+        String telephone = params.getParameter("telephone");
+        String weChat = params.getParameter("weChat");
+        String school = params.getParameter("school");
+        String duiWuName = params.getParameter("duiWuName");
+        String zuoPinName = params.getParameter("zuoPinName");
+        String aboutTest = params.getParameter("aboutTest");
+        String aboutFunction = params.getParameter("aboutFunction");
+        String aboutNews = params.getParameter("aboutNews");
+        String technologyWay = params.getParameter("technologyWay");
+        String technologyCase = params.getParameter("technologyCase");
+        String productIntroduce = params.getParameter("productIntroduce");
+        String adress = params.getParameter("adress");
+        RegistrationForm registrationForm = new RegistrationForm();
+        registrationForm.setCaptionName(captionName);
+        registrationForm.setZhuanYe(zhuanYe);
+        registrationForm.setXueHao(xueHao);
+        registrationForm.setTelephone(telephone);
+        registrationForm.setWeChat(weChat);
+        registrationForm.setSchool(school);
+        registrationForm.setDuiWuName(duiWuName);
+        registrationForm.setZuoPinName(zuoPinName);
+        registrationForm.setAboutTest(aboutTest);
+        registrationForm.setAboutFunction(aboutFunction);
+        registrationForm.setAboutNews(aboutNews);
+        registrationForm.setTechnologyWay(technologyWay);
+        registrationForm.setTechnologyCase(technologyCase);
+        registrationForm.setProductIntroduce(productIntroduce);
+        registrationForm.setAdress(adress);
+        competitionFromReprosity.save(registrationForm);//保存
     }
 
     @PostMapping(value = "/joinUs")

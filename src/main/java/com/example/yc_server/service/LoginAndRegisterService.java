@@ -42,6 +42,7 @@ public class LoginAndRegisterService  {
             if (userDataBases.getPassword().equals(user.getPassword())) {
                 result.setResult(true);
                 result.setMessage("登录成功");
+                result.setUserName(user.getUserName());
                 //返回token
                 jwtToken = Jwts.builder().setSubject(user.getUserName()).claim("roles", "user").setIssuedAt(new Date())
                         .signWith(SignatureAlgorithm.HS256, "secretkey").compact();

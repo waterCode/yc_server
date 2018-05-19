@@ -4,6 +4,7 @@ public class Result {
     private boolean result = false;
     private String message;
     private String Token;
+    private String userName;
 
 
     public boolean isResult() {
@@ -28,5 +29,13 @@ public class Result {
 
     public void setToken(String token) {
         Token = token;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

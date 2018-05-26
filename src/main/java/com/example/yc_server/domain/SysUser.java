@@ -12,7 +12,7 @@ public class SysUser { //1
 	private Long id;
 	private String userName;
 	private String password;
-	private String roles;
+	private String roles = "member";//默认都是成员
 
 	public boolean isEnabled() {
 		return true;

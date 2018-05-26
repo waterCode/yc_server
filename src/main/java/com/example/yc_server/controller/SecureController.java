@@ -1,9 +1,7 @@
 package com.example.yc_server.controller;
 
 
-import com.example.yc_server.domain.GradeTeam;
-import com.example.yc_server.domain.RegistrationForm;
-import com.example.yc_server.domain.SysUser;
+import com.example.yc_server.domain.*;
 import com.example.yc_server.repository.CompetitionFromRepository;
 import com.example.yc_server.repository.RegisterRepository;
 import com.example.yc_server.repository.TeamGradeRepository;
@@ -21,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/secure")
@@ -36,6 +35,31 @@ public class SecureController {
     @Autowired
     private TeamGradeRepository teamGradeRepository;
 
+
+    @GetMapping("/getRegistrationForm")
+    public BaseResult getRegistrationForm (@RequestParam(value = "id", required = true)Long id,HttpServletRequest request){
+        RegistrarionFormResult result = new RegistrarionFormResult();
+        if(isAdmin(request)) {
+            Optional<RegistrationForm> byId = competitionFromRepository.findById(id);
+            if (byId.isPresent()) {
+                RegistrationForm registrationForm = byId.get();
+                result.setRegistrationForm(registrationForm);
+            }
+        }
+        return result;
+
+
+    }
+
+    public boolean isAdmin(HttpServletRequest request){
+        Claims claims = (Claims) request.getAttribute("claims");
+        String userName = claims.getSubject();
+        if(userName.equals("admin")){
+            return true;
+        }else {
+            return false;
+        }
+    }
 
     @GetMapping("/users")
     public  List<SysUser> getUser(HttpServletRequest request){
@@ -76,9 +100,25 @@ public class SecureController {
 
     @PostMapping("/submitGrade")
     public void saveTeamGrade(@RequestBody GradeTeam gradeTeam,HttpServletRequest request){
-        Claims claims = (Claims) request.getAttribute("claims");
-        String userName = claims.getSubject();
-        gradeTeam.setScorerName(userName);
+        BaseResult result = new BaseResult();
+        if(isAdmin(request)){
+            Claims claims = (Claims) request.getAttribute("claims");
+            String userName = claims.getSubject();
+            //
+            gradeTeam.setScorerName(userName);
+            List<GradeTeam> list = teamGradeRepository.findByCaptionNameAndScorerName(gradeTeam.getCaptionName(), userName);
+            if(list == null || list.size()==0){
+                //表示还没评分
+                teamGradeRepository.save(gradeTeam);
+                result.setResult(true);
+                result.setMessage("评价成功");
+            }else {
+                //可以评分
+                result.setResult(false);
+                result.setMessage("已经评价");
+            }
+
+        }
         //如果还没评分则保存
 
     }

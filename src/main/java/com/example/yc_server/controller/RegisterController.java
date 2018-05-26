@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RegisterController {
-
     @Autowired
     private LoginAndRegisterService loginAndRegisterService;
 
@@ -24,7 +23,7 @@ public class RegisterController {
             result.setMessage("用户名已被注册");
         }else {
             result.setResult(true);
-            result.setMessage("success");
+            result.setMessage("注册成功");
         }
         return result;
     }

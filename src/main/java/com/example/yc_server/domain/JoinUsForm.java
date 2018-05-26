@@ -23,7 +23,7 @@ public class JoinUsForm {
     private String skill;
     private String studentNum;
     private String telephone;
-
+    private boolean isAdjust;
 
     public Long getId() {
         return id;
@@ -127,5 +127,13 @@ public class JoinUsForm {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public boolean isAdjust() {
+        return isAdjust;
+    }
+
+    public void setAdjust(boolean adjust) {
+        isAdjust = adjust;
     }
 }

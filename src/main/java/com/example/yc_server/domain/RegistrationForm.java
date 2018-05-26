@@ -26,6 +26,115 @@ public class RegistrationForm {
     private String productIntroduce;
     private String adress;
 
+    private String teamMateOneName;
+    private String teamMateOneClass;
+    private String teamMateOneTelephone;
+    private String teamMateTwoName;
+    private String teamMateTwoClass;
+    private String teamMateTwoTelephone;
+    private String teamMateThreeName;
+    private String teamMateThreeClass;
+    private String teamMateThreeTelephone;
+    private String teamMateFourName;
+    private String teamMateFourClass;
+    private String teamMateFourTelephone;
+
+
+    public String getTeamMateOneName() {
+        return teamMateOneName;
+    }
+
+    public void setTeamMateOneName(String teamMateOneName) {
+        this.teamMateOneName = teamMateOneName;
+    }
+
+    public String getTeamMateOneClass() {
+        return teamMateOneClass;
+    }
+
+    public void setTeamMateOneClass(String teamMateOneClass) {
+        this.teamMateOneClass = teamMateOneClass;
+    }
+
+    public String getTeamMateOneTelephone() {
+        return teamMateOneTelephone;
+    }
+
+    public void setTeamMateOneTelephone(String teamMateOneTelephone) {
+        this.teamMateOneTelephone = teamMateOneTelephone;
+    }
+
+    public String getTeamMateTwoName() {
+        return teamMateTwoName;
+    }
+
+    public void setTeamMateTwoName(String teamMateTwoName) {
+        this.teamMateTwoName = teamMateTwoName;
+    }
+
+    public String getTeamMateTwoClass() {
+        return teamMateTwoClass;
+    }
+
+    public void setTeamMateTwoClass(String teamMateTwoClass) {
+        this.teamMateTwoClass = teamMateTwoClass;
+    }
+
+    public String getTeamMateTwoTelephone() {
+        return teamMateTwoTelephone;
+    }
+
+    public void setTeamMateTwoTelephone(String teamMateTwoTelephone) {
+        this.teamMateTwoTelephone = teamMateTwoTelephone;
+    }
+
+    public String getTeamMateThreeName() {
+        return teamMateThreeName;
+    }
+
+    public void setTeamMateThreeName(String teamMateThreeName) {
+        this.teamMateThreeName = teamMateThreeName;
+    }
+
+    public String getTeamMateThreeClass() {
+        return teamMateThreeClass;
+    }
+
+    public void setTeamMateThreeClass(String teamMateThreeClass) {
+        this.teamMateThreeClass = teamMateThreeClass;
+    }
+
+    public String getTeamMateThreeTelephone() {
+        return teamMateThreeTelephone;
+    }
+
+    public void setTeamMateThreeTelephone(String teamMateThreeTelephone) {
+        this.teamMateThreeTelephone = teamMateThreeTelephone;
+    }
+
+    public String getTeamMateFourName() {
+        return teamMateFourName;
+    }
+
+    public void setTeamMateFourName(String teamMateFourName) {
+        this.teamMateFourName = teamMateFourName;
+    }
+
+    public String getTeamMateFourClass() {
+        return teamMateFourClass;
+    }
+
+    public void setTeamMateFourClass(String teamMateFourClass) {
+        this.teamMateFourClass = teamMateFourClass;
+    }
+
+    public String getTeamMateFourTelephone() {
+        return teamMateFourTelephone;
+    }
+
+    public void setTeamMateFourTelephone(String teamMateFourTelephone) {
+        this.teamMateFourTelephone = teamMateFourTelephone;
+    }
 
     public void setCaptionName(String captionName) {
         this.captionName = captionName;

@@ -104,7 +104,35 @@ public class JoinTeamContoller {
         String technologyCase = params.getParameter("technologyCase");
         String productIntroduce = params.getParameter("productIntroduce");
         String adress = params.getParameter("adress");
+        String teamMateOneName = params.getParameter("teamMateOneName");
+        String teamMateOneClass = params.getParameter("teamMateOneClass");
+        String teamMateOneTelephone = params.getParameter("teamMateOneTelephone");
+        String teamMateTwoName = params.getParameter("teamMateTwoName");
+        String teamMateTwoClass = params.getParameter("teamMateTwoClass");
+        String teamMateTwoTelephone = params.getParameter("teamMateTwoTelephone");
+        String teamMateThreeName = params.getParameter("teamMateThreeName");
+        String teamMateThreeClass = params.getParameter("teamMateThreeClass");
+        String teamMateThreeTelephone = params.getParameter("teamMateThreeTelephone");
+        String teamMateFourName = params.getParameter("teamMateFourName");
+        String teamMateFourClass = params.getParameter("teamMateFourClass");
+        String teamMateFourTelephone = params.getParameter("teamMateFourTelephone");
         RegistrationForm registrationForm = new RegistrationForm();
+        registrationForm.setTeamMateOneName(teamMateOneName);
+        registrationForm.setTeamMateOneClass(teamMateOneClass);
+        registrationForm.setTeamMateOneTelephone(teamMateOneTelephone);
+
+        registrationForm.setTeamMateTwoName(teamMateTwoName);
+        registrationForm.setTeamMateTwoClass(teamMateTwoClass);
+        registrationForm.setTeamMateTwoTelephone(teamMateTwoTelephone);
+
+        registrationForm.setTeamMateThreeName(teamMateThreeName);
+        registrationForm.setTeamMateThreeClass(teamMateThreeClass);
+        registrationForm.setTeamMateThreeTelephone(teamMateThreeTelephone);
+
+        registrationForm.setTeamMateFourName(teamMateFourName);
+        registrationForm.setTeamMateFourClass(teamMateFourClass);
+        registrationForm.setTeamMateFourTelephone(teamMateFourTelephone);
+
         registrationForm.setCaptionName(captionName);
         registrationForm.setZhuanYe(zhuanYe);
         registrationForm.setXueHao(xueHao);

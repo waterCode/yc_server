@@ -5,6 +5,7 @@ import com.example.yc_server.domain.*;
 import com.example.yc_server.repository.CompetitionFromRepository;
 import com.example.yc_server.repository.RegisterRepository;
 import com.example.yc_server.repository.TeamGradeRepository;
+import com.example.yc_server.service.EmailService;
 import io.jsonwebtoken.Claims;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class SecureController {
 
     @Autowired
     private TeamGradeRepository teamGradeRepository;
+
+    @Autowired
+    private EmailService emailService;
 
 
     @GetMapping("/getRegistrationForm")
@@ -120,9 +124,14 @@ public class SecureController {
 
         }
         //如果还没评分则保存
-
     }
 
+    @PostMapping("/sentMail")
+    public void sentMail(@RequestBody MailContent content,HttpServletRequest request){
+        if(isAdmin(request)) {
+            emailService.sentEmail("756343483@qq.com", content.getSubject(), content.getSubject());
+        }
+    }
     @GetMapping("/getExcel")
     public void getExcel(HttpServletResponse response) throws IOException{
         HSSFWorkbook workbook = new HSSFWorkbook();

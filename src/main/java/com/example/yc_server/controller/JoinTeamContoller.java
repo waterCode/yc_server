@@ -52,6 +52,7 @@ public class JoinTeamContoller {
         }
         BaseResult result = new BaseResult();
         if (files != null) {
+            int i =0;
             for (MultipartFile file : files) {
                 if (!file.isEmpty()) {
                     try {
@@ -59,8 +60,15 @@ public class JoinTeamContoller {
                         // 实际项目中，文件需要输出到指定位置，需要在增加代码处理。
                         // 还有关于文件格式限制、文件大小限制，详见：中配置。
                         //
+                        if(i == 0){
+                            path = path+"/photo/";//照片存在photo文件夹文件夹里面
+                            i++;
+                        }else {
+                            path = path+"/";
+                        }
                         BufferedOutputStream out = new BufferedOutputStream(
                                 new FileOutputStream(new File(path+"/"+file.getOriginalFilename())));
+
                         out.write(file.getBytes());
                         out.flush();
                         out.close();

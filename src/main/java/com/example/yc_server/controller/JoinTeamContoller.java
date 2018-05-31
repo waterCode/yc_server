@@ -61,10 +61,10 @@ public class JoinTeamContoller {
                         // 还有关于文件格式限制、文件大小限制，详见：中配置。
                         //
                         if(i == 0){
-                            path = path+"/photo/";//照片存在photo文件夹文件夹里面
+                            path = path + "/photo/";//照片存在photo文件夹文件夹里面
                             i++;
                         }else {
-                            path = path+"/";
+                            path = path + "/file/";
                         }
                         BufferedOutputStream out = new BufferedOutputStream(
                                 new FileOutputStream(new File(path+"/"+file.getOriginalFilename())));

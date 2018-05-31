@@ -27,6 +27,8 @@ server:
 
 filePath: C:/YC/
 
+site: http://localhost:8083
+
 
 
 

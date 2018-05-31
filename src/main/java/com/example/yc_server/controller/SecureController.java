@@ -9,6 +9,7 @@ import com.example.yc_server.service.EmailService;
 import io.jsonwebtoken.Claims;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
@@ -39,6 +40,11 @@ public class SecureController {
     @Autowired
     private EmailService emailService;
 
+    @Value("${filePath}")
+    private String prePath; //配置文件配置的物理保存地址
+
+    @Value("${site}")
+    private String site;
 
     @GetMapping("/getRegistrationForm")
     public BaseResult getRegistrationForm (@RequestParam(value = "id", required = true)Long id,HttpServletRequest request){
@@ -48,6 +54,35 @@ public class SecureController {
             if (byId.isPresent()) {
                 RegistrationForm registrationForm = byId.get();
                 result.setRegistrationForm(registrationForm);
+                //查找附件，并返回
+                String name = registrationForm.getCaptionName()+registrationForm.getWeChat();
+                String path = prePath +name+"/photo";
+                File file = new File(path);
+                File[] files = file.listFiles();
+                if(files !=null){
+                    if(files[0] !=null){
+                       String url = site+"/file/"+name+"/photo/"+files[0].getName();//返回图片url
+                       result.setImgUrl(url);
+                    }
+                }
+                String filePath = prePath +name+"/file";
+                File fileZip = new File(path);
+                File[] filesZip = fileZip.listFiles();
+                if(filesZip !=null){
+                    for(int i=0;i<filesZip.length;i++){
+                        if(i==0){
+                            String url = site+"/file/"+name+"/file/"+filesZip[0].getName();//返回图片url
+                            result.setFile1Url(url);
+                        }else if (i==1){
+                            String url = site+"/file/"+name+"/file/"+filesZip[1].getName();//返回图片url
+                            result.setFile2Url(url);
+                        }
+                    }
+
+                }
+
+
+
             }
         }
         return result;

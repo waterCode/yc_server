@@ -16,11 +16,6 @@ spring:
     port: 587
 
 
-
-
-
-
-
   # JWT
 jwt:
     header: Authorization
@@ -29,4 +24,11 @@ jwt:
     tokenHead: "Bearer "
 server:
   port: 8083
+
+filePath: C:/YC/
+
+
+
+
+
 

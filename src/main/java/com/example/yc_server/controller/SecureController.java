@@ -3,11 +3,13 @@ package com.example.yc_server.controller;
 
 import com.example.yc_server.domain.*;
 import com.example.yc_server.repository.CompetitionFromRepository;
+import com.example.yc_server.repository.JoinUsRepository;
 import com.example.yc_server.repository.RegisterRepository;
 import com.example.yc_server.repository.TeamGradeRepository;
 import com.example.yc_server.service.EmailService;
 import io.jsonwebtoken.Claims;
 import org.apache.poi.hssf.usermodel.*;
+import org.hibernate.mapping.Join;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,9 @@ public class SecureController {
 
     @Autowired
     private TeamGradeRepository teamGradeRepository;
+
+    @Autowired
+    private JoinUsRepository joinUsRepository;
 
     @Autowired
     private EmailService emailService;
@@ -120,6 +125,16 @@ public class SecureController {
 
         }
         return all;
+    }
+
+    @GetMapping("/joinUsMembers")
+    public List<JoinUsForm> getJoinUsMembers(HttpServletRequest request){
+        List<JoinUsForm> list= null;
+        if(isAdmin(request)){
+            list = joinUsRepository.findAll();
+        }
+        return list;
+
     }
 
     @GetMapping("/participants")

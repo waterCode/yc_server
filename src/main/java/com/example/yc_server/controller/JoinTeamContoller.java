@@ -60,14 +60,17 @@ public class JoinTeamContoller {
                         // 实际项目中，文件需要输出到指定位置，需要在增加代码处理。
                         // 还有关于文件格式限制、文件大小限制，详见：中配置。
                         //
+                        String path_temp="";
                         if(i == 0){
-                            path = path + "/photo/";//照片存在photo文件夹文件夹里面
+                            path_temp = path + "/photo/";//照片存在photo文件夹文件夹里面
+                            checkPath(path_temp);
                             i++;
                         }else {
-                            path = path + "/file/";
+                             path_temp = path + "/file/";
+                            checkPath(path_temp);
                         }
                         BufferedOutputStream out = new BufferedOutputStream(
-                                new FileOutputStream(new File(path+"/"+file.getOriginalFilename())));
+                                new FileOutputStream(new File(path_temp+file.getOriginalFilename())));
 
                         out.write(file.getBytes());
                         out.flush();
@@ -94,6 +97,13 @@ public class JoinTeamContoller {
         return result;
 
 
+    }
+
+    private void checkPath(String path) {
+        File dir = new File(path);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
     }
 
     private void saveStringData(MultipartHttpServletRequest params) {
@@ -163,6 +173,7 @@ public class JoinTeamContoller {
     public BaseResult joinUs(@RequestBody JoinUsForm form){
         BaseResult result = new BaseResult();
         if (form !=null){
+            System.out.println("插入学校"+form.getCollege());
             joinUsRepository.save(form);//报名表保存到数据库
             result.setResult(true);
         }else {

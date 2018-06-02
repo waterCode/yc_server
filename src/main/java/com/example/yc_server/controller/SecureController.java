@@ -91,9 +91,10 @@ public class SecureController {
     }
 
     public boolean isAdmin(HttpServletRequest request){
+        // TODO: 2018/6/1 更改判断管理员逻辑
         Claims claims = (Claims) request.getAttribute("claims");
         String userName = claims.getSubject();
-        if(userName.equals("admin")){
+        if(userName.equals("admin")){//
             return true;
         }else {
             return false;
@@ -138,7 +139,7 @@ public class SecureController {
 
 
     @PostMapping("/submitGrade")
-    public void saveTeamGrade(@RequestBody GradeTeam gradeTeam,HttpServletRequest request){
+    public BaseResult saveTeamGrade(@RequestBody GradeTeam gradeTeam,HttpServletRequest request){
         BaseResult result = new BaseResult();
         if(isAdmin(request)){
             Claims claims = (Claims) request.getAttribute("claims");
@@ -158,6 +159,7 @@ public class SecureController {
             }
 
         }
+        return result;
         //如果还没评分则保存
     }
 
@@ -215,6 +217,21 @@ public class SecureController {
 
     }
 
+    @PostMapping("/updateIdentity")
+    public BaseResult updateIdentity(@RequestBody SysUser user,HttpServletRequest request){
+        BaseResult baseResult = new BaseResult();
+        if(isAdmin(request)){
+            //更新
+            registerRepository.save(user);
+            baseResult.setMessage("更新成功");
+            baseResult.setResult(true);
+        }else {
+            baseResult.setMessage("管理员失败");
+            baseResult.setResult(false);
+        }
+        return baseResult;
+
+    }
 
 
 

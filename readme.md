@@ -27,7 +27,7 @@ userName表示用户名字
 result：true表示用户密码正确，false表示用户密码错误
 
 
-加入我们接口
+##加入我们接口
 ```
               joinerName:'',//加入者名字
               college:'',//大学
@@ -52,3 +52,31 @@ result：true表示用户密码正确，false表示用户密码错误
 }
 ```
 如果提交的学号与服务器保存数据相同，则返回该学生已经提交报名表
+
+##管理员相关接口
+###获取所有成员列表
+请求地址：http://ip:8083//secure/users
+必须带上token
+该接口只有superAdmin才会有数据返回,如下
+```
+{
+  "result": true,
+  "message": "请求成功",
+  "users": [
+    {
+      "id": 47,
+      "userName": "tlm",
+      "password": "zmc",
+      "roles": "admin",
+      "enabled": true
+    },
+    {
+      "id": 46,
+      "userName": "zmc",
+      "password": "zmc",
+      "roles": "admin",
+      "enabled": true
+    }
+  ]
+}
+```

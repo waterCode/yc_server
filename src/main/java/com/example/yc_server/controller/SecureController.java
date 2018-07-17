@@ -98,8 +98,8 @@ public class SecureController {
     public boolean isAdmin(HttpServletRequest request){
         // TODO: 2018/6/1 更改判断管理员逻辑
         Claims claims = (Claims) request.getAttribute("claims");
-        String userName = claims.getSubject();
-        if(userName.equals("admin")){//
+        String role = claims.getSubject();
+        if(role.equals("admin")||role.equals("superAdmin")){//
             return true;
         }else {
             return false;
@@ -107,12 +107,13 @@ public class SecureController {
     }
 
     @GetMapping("/users")
-    public  List<SysUser> getUser(HttpServletRequest request){
+    public  GetUsersResult getUser(HttpServletRequest request){
         //只有管理者才有权限
         List<SysUser> all=null;
+        GetUsersResult result = new GetUsersResult();
         Claims claims = (Claims) request.getAttribute("claims");
-        String userName = claims.getSubject();
-        if(userName.equals("admin")){
+        String role = claims.getSubject();
+        if(role.equals("superAdmin")){
             //是管理员，则返回成员列表
             all = registerRepository.findAll();
             Iterator<SysUser> iterator = all.iterator();
@@ -122,9 +123,14 @@ public class SecureController {
                     iterator.remove();
                 }
             }
-
+            result.setResult(true);
+            result.setMessage("请求成功");
+            result.setUsers(all);
+        }else {
+            result.setResult(false);
+            result.setMessage("不是超级管理员，无权限");
         }
-        return all;
+        return result;
     }
 
     @GetMapping("/joinUsMembers")

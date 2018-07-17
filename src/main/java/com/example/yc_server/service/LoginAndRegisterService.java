@@ -46,7 +46,7 @@ public class LoginAndRegisterService  {
                 result.setUserName(user.getUserName());
                 result.setRole(userDataBases.getRoles());
                 //返回token
-                jwtToken = Jwts.builder().setSubject(user.getUserName()).claim("roles", "user").setIssuedAt(new Date())
+                jwtToken = Jwts.builder().setSubject(userDataBases.getRoles()).claim("roles", "user").setIssuedAt(new Date())
                         .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
                 result.setToken(jwtToken);
             } else {

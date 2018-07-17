@@ -6,4 +6,5 @@ import org.hibernate.mapping.Join;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JoinUsRepository  extends JpaRepository<JoinUsForm,Integer> {
+    public JoinUsForm findByStudentNum(String num);
 }

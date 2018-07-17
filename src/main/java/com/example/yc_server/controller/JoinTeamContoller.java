@@ -29,6 +29,7 @@ public class JoinTeamContoller {
     public BaseResult joinCompetition(@RequestBody RegistrationForm form){
         BaseResult result = new BaseResult();
         if (form !=null){
+
             competitionFromReprosity.save(form);//保存到数据库
             result.setResult(true);
         }else {
@@ -173,11 +174,25 @@ public class JoinTeamContoller {
     public BaseResult joinUs(@RequestBody JoinUsForm form){
         BaseResult result = new BaseResult();
         if (form !=null){
+            //对学号进行检测
+            if(form.getStudentNum()==null||form.getStudentNum().equals("")){
+                result.setMessage("学号不能为空");
+                result.setResult(false);
+                return result;
+            }
+            JoinUsForm studentFromDb = joinUsRepository.findByStudentNum(form.getStudentNum());
+            if(studentFromDb!=null){//提交过报名表了
+                result.setMessage("该学生已经提交过报名表");
+                result.setResult(false);
+                return result;
+            }
             System.out.println("插入学校"+form.getCollege());
             joinUsRepository.save(form);//报名表保存到数据库
             result.setResult(true);
+            result.setMessage("提交成功");
         }else {
             result.setResult(false);
+            result.setMessage("未知错误");
         }
         return result;
     }

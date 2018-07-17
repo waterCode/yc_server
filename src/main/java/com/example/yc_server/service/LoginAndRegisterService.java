@@ -2,6 +2,7 @@ package com.example.yc_server.service;
 
 
 
+import com.example.yc_server.domain.LoginResult;
 import com.example.yc_server.domain.Result;
 import com.example.yc_server.domain.SysUser;
 import com.example.yc_server.repository.RegisterRepository;
@@ -34,7 +35,7 @@ public class LoginAndRegisterService  {
 
 
     public Result login(@NonNull SysUser user) {
-        Result result = new Result();
+        LoginResult result = new LoginResult();
         String jwtToken = "";
         SysUser userDataBases = registerRepository.findByUserName(user.getUserName());
         if (userDataBases != null) {
@@ -43,6 +44,7 @@ public class LoginAndRegisterService  {
                 result.setResult(true);
                 result.setMessage("登录成功");
                 result.setUserName(user.getUserName());
+                result.setRole(userDataBases.getRoles());
                 //返回token
                 jwtToken = Jwts.builder().setSubject(user.getUserName()).claim("roles", "user").setIssuedAt(new Date())
                         .signWith(SignatureAlgorithm.HS256, "secretkey").compact();

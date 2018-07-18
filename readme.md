@@ -56,9 +56,49 @@ result：true表示用户密码正确，false表示用户密码错误
 ```
 如果提交的学号与服务器保存数据相同，则返回该学生已经提交报名表
 
+
+## 竞赛报名提交报名表接口 ##
+地址：http://ip:8083/team/joinCompetitionAll
+数据提交类似这样。文件按顺序提交，分别表示头像，附件1和附件2
+```
+let data = new FormData();
+        data.append('uploadfile', this.formdataPic)
+        data.append('uploadfile', this.formdataWenjian1)
+        data.append('uploadfile', this.formdataWenjian2)
+        data.append("captionName", this.competitionForm.captionName)
+        data.append("zhuanYe", this.competitionForm.zhuanYe)
+        data.append("xueHao", this.competitionForm.xueHao)
+        data.append("telephone", this.competitionForm.telephone)
+        data.append("weChat", this.competitionForm.weChat)
+        data.append("school", this.competitionForm.school)
+        data.append("duiWuName", this.competitionForm.duiWuName)
+        data.append("zuoPinName", this.competitionForm.zuoPinName)
+        data.append("aboutTest", this.competitionForm.aboutTest)
+        data.append("aboutFunction", this.competitionForm.aboutFunction)
+        data.append("aboutNews", this.competitionForm.aboutNews)
+        data.append("technologyWay", this.competitionForm.technologyWay)
+        data.append("technologyCase", this.competitionForm.technologyCase)
+        data.append("productIntroduce", this.competitionForm.productIntroduce)
+        data.append("adress", this.competitionForm.adress)
+        data.append("teamMateOneName", this.competitionForm.teamMateOneName)
+        data.append("teamMateOneClass", this.competitionForm.teamMateOneClass)
+        data.append("teamMateOneTelephone", this.competitionForm.teamMateOneTelephone)
+
+        data.append("teamMateTwoName", this.competitionForm.teamMateTwoName)
+        data.append("teamMateTwoClass", this.competitionForm.teamMateTwoClass)
+        data.append("teamMateTwoTelephone", this.competitionForm.teamMateTwoTelephone)
+
+        data.append("teamMateThreeName", this.competitionForm.teamMateThreeName)
+        data.append("teamMateThreeClass", this.competitionForm.teamMateThreeClass)
+        data.append("teamMateThreeTelephone", this.competitionForm.teamMateThreeTelephone)
+
+        data.append("teamMateFourName", this.competitionForm.teamMateFourName)
+        data.append("teamMateFourClass", this.competitionForm.teamMateFourClass)
+        data.append("teamMateFourTelephone", this.competitionForm.teamMateFourTelephone)
+```
 ## 管理员相关接口 ##
 ### 获取所有成员列表 ###
-请求地址：http://ip:8083//secure/users
+请求地址：http://ip:8083/secure/users
 必须带上token
 该接口只有superAdmin才会有数据返回,如下
 ```
@@ -83,3 +123,14 @@ result：true表示用户密码正确，false表示用户密码错误
   ]
 }
 ```
+
+### 获取所有竞赛成员列表接口 ###
+请求地址：http://ip:8083/secure/participants
+header必须带上token
+只有管理员有权限
+
+### 获取某位竞赛成员详细信息
+请求地址：http://ip:8083/secure/getRegistrationForm？id=xxx
+请求方法：get
+header必须带上token
+只有管理员有权限

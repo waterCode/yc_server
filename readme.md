@@ -132,5 +132,65 @@ header必须带上token
 ### 获取某位竞赛成员详细信息
 请求地址：http://ip:8083/secure/getRegistrationForm？id=xxx
 请求方法：get
-header必须带上token
-只有管理员有权限
+注意：header必须带上token，还有附件地址，图片地址，所以再根据id详细请求一次
+
+拥有此权限：管理员和超级管理员
+
+### 对竞赛报名表进行评分接口 ###
+
+
+
+### 获取加入我们数据库所有成员列表 ###
+请求地址：http://ip:8083/secure/joinUsMembers
+请求方法：get
+header必须带上Token
+返回如下：
+```json
+{
+  "result": true,
+  "message": "获取成功",
+  "joinUsFormList": [
+    {
+      "id": 49,
+      "award": "3333",
+      "className": "电子343",
+      "college": "萝莉",
+      "experience": "3333",
+      "groupName": "飞控组",
+      "introduceDescription": "都是发放",
+      "joinerName": "钟敏成",
+      "qqNum": "1231222",
+      "qqEmail": "22222222",
+      "skill": "3333",
+      "studentNum": "324234234",
+      "telephone": "222222222",
+      "adjust": false
+    },
+    {
+      "id": 54,
+      "award": "带的动",
+      "className": "地方都是",
+      "college": "带的动",
+      "experience": "痘痘",
+      "groupName": "机器人组",
+      "introduceDescription": "倒萨范德萨地方",
+      "joinerName": "种地方都是",
+      "qqNum": "3333324234",
+      "qqEmail": "75634242@qq.com",
+      "skill": "顶顶顶顶顶",
+      "studentNum": "3114003242",
+      "telephone": "1232132145345",
+      "adjust": false
+    }
+  ]
+}
+```
+
+### 获取加入我们某位成员具体的接口 ###
+接口地址：
+
+```json
+
+```
+
+

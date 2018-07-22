@@ -95,6 +95,50 @@ public class SecureController {
 
     }
 
+  /*  @GetMapping("/getJoinUsFromDetail")
+    public BaseResult getJoinUsFromDetail (@RequestParam(value = "id", required = true)Long id,HttpServletRequest request){
+        RegistrarionFormResult result = new RegistrarionFormResult();
+        if(isAdmin(request)) {
+            Optional<RegistrationForm> byId = competitionFromRepository.findById(id);
+            if (byId.isPresent()) {
+                RegistrationForm registrationForm = byId.get();
+                result.setRegistrationForm(registrationForm);
+                //查找附件，并返回
+                String name = registrationForm.getCaptionName()+registrationForm.getWeChat();
+                String path = prePath +name+"/photo";
+                File file = new File(path);
+                File[] files = file.listFiles();
+                if(files !=null){
+                    if(files[0] !=null){
+                        String url = site+"/file/"+name+"/photo/"+files[0].getName();//返回图片url
+                        result.setImgUrl(url);
+                    }
+                }
+                String filePath = prePath +name+"/file";
+                File fileZip = new File(path);
+                File[] filesZip = fileZip.listFiles();
+                if(filesZip !=null){
+                    for(int i=0;i<filesZip.length;i++){
+                        if(i==0){
+                            String url = site+"/file/"+name+"/file/"+filesZip[0].getName();//返回图片url
+                            result.setFile1Url(url);
+                        }else if (i==1){
+                            String url = site+"/file/"+name+"/file/"+filesZip[1].getName();//返回图片url
+                            result.setFile2Url(url);
+                        }
+                    }
+
+                }
+
+
+
+            }
+        }
+        return result;
+
+
+    }
+*/
     public boolean isAdmin(HttpServletRequest request){
         // TODO: 2018/6/1 更改判断管理员逻辑
         Claims claims = (Claims) request.getAttribute("claims");
@@ -134,27 +178,42 @@ public class SecureController {
     }
 
     @GetMapping("/joinUsMembers")
-    public List<JoinUsForm> getJoinUsMembers(HttpServletRequest request){
+    public JoinUsResult getJoinUsMembers(HttpServletRequest request){
         List<JoinUsForm> list= null;
+        JoinUsResult result = new JoinUsResult();
         if(isAdmin(request)){
             list = joinUsRepository.findAll();
+            result.setJoinUsFormList(list);
+            result.setResult(true);
+            result.setMessage("获取成功");
+        }else {
+            result.setResult(false);
+            result.setMessage("你没有权限");
         }
-        return list;
+        return result;
 
     }
 
     @GetMapping("/participants")
-    public  List<RegistrationForm> getParticipants(HttpServletRequest request){
+    public  RegistrationFormListResult getParticipants(HttpServletRequest request){
         //只有管理者才有权限
+        RegistrationFormListResult result = new RegistrationFormListResult();
         List<RegistrationForm> all=null;
-        Claims claims = (Claims) request.getAttribute("claims");
-        String userName = claims.getSubject();
-        if(userName.equals("admin")){
+       /* Claims claims = (Claims) request.getAttribute("claims");
+        String userName = claims.getSubject();*/
+        if(isAdmin(request)){
             //是管理员，则返回成员列表
             all = competitionFromRepository.findAll();
+            result.setRegistrationFormList(all);
+            result.setResult(true);
+            result.setMessage("请求成功");
 
+
+        }else {
+            result.setResult(false);
+            result.setMessage("你没有权限");
         }
-        return all;
+        return result;
     }
 
 

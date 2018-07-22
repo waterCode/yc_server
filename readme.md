@@ -132,11 +132,30 @@ header必须带上token
 ### 获取某位竞赛成员详细信息
 请求地址：http://ip:8083/secure/getRegistrationForm？id=xxx
 请求方法：get
-注意：header必须带上token，还有附件地址，图片地址，所以再根据id详细请求一次
+注意：header必须带上token，因为有附件地址，头像图片地址，所以再根据id详细请求一次
 
 拥有此权限：管理员和超级管理员
 
 ### 对竞赛报名表进行评分接口 ###
+请求地址：http://ip:8083/secure/submitGrade
+请求方法：post
+注意：header必须带上token
+请求体如下：
+```
+        {
+        	"captionName" : "钟敏对的",
+        	"newGrade" : "80",
+        	"practiceGrade" : "80",
+        	"otherGrade" : "80"
+        }
+```
+返回如下
+```
+{
+  "result": true,
+  "message": "评价成功"
+}
+```
 
 
 

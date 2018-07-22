@@ -202,6 +202,17 @@ header必须带上token
 
 
 ### 获取竞赛成员excel表接口 ###
+http://ip:8083/secure/getExcel
+请求方法：get
+返回：
+返回的是一个excel文件数据流，前端可以用以下代码包裹并下载
+```js
+        let url = window.URL.createObjectURL(new Blob([reponse.data]))
+        let link = document.createElement('a')
+        link.style.display = 'none'
+        link.href = url
+        link.setAttribute('download','excel.xlsx')
+```
 
 ### 获取加入我们数据库所有成员列表 ###
 请求地址：http://ip:8083/secure/joinUsMembers

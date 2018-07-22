@@ -71,7 +71,7 @@ public class SecureController {
                     }
                 }
                 String filePath = prePath +name+"/file";
-                File fileZip = new File(path);
+                File fileZip = new File(filePath);
                 File[] filesZip = fileZip.listFiles();
                 if(filesZip !=null){
                     for(int i=0;i<filesZip.length;i++){
@@ -244,13 +244,27 @@ public class SecureController {
     }
 
     @PostMapping("/sentMail")
-    public void sentMail(@RequestBody MailContent content,HttpServletRequest request){
+    public BaseResult sentMail(@RequestBody MailContent content,HttpServletRequest request){
+        BaseResult result = new BaseResult();
         if(isAdmin(request)) {
-            emailService.sentEmail("756343483@qq.com", content.getSubject(), content.getSubject());
+            List<ToPeopleInfo> toPeople = content.getToPeople();
+            if(toPeople!=null&&toPeople.size()>0){
+                for(ToPeopleInfo people:toPeople){
+                    emailService.sentEmail(people.getEmail(), content.getSubject(), content.getSubject());
+                }
+            }
+            result.setResult(true);
+            result.setMessage("发送成功");
+        }else {
+            result.setResult(false);
+            result.setMessage("你没有权限");
         }
+        return result;
     }
     @GetMapping("/getExcel")
     public void getExcel(HttpServletResponse response) throws IOException{
+
+
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("报名表集合");
 

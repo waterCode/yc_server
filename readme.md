@@ -1,5 +1,8 @@
 ## 接口文档 ##
 ip为：47.106.105.117
+token格式如下：key和value分别如下
+key为：authorization
+value：eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlckFkbWluIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTMyMjUyMjQ5fQ.tudjFor0qFaHQB5NR9bnSdktqvfhFxY4SHqG9L3HVFo
 ## 登陆接口 ##
 请求地址：http://ip:8083/login
 发送数据如下
@@ -127,14 +130,54 @@ let data = new FormData();
 ### 获取所有竞赛成员列表接口 ###
 请求地址：http://ip:8083/secure/participants
 header必须带上token
-只有管理员有权限
+拥有此权限：管理员和超级管理员
 
 ### 获取某位竞赛成员详细信息
-请求地址：http://ip:8083/secure/getRegistrationForm？id=xxx
+请求地址：http://ip:8083/secure/getRegistrationForm?id=xxx
 请求方法：get
 注意：header必须带上token，因为有附件地址，头像图片地址，所以再根据id详细请求一次
-
 拥有此权限：管理员和超级管理员
+返回如下格式：
+```
+{
+  "result": false,
+  "message": "",
+  "registrationForm": {
+    "id": 63,
+    "captionName": "地方大",
+    "zhuanYe": "都堆到12",
+    "xueHao": "1231233333",
+    "telephone": "18888132321",
+    "weChat": "342432",
+    "duiWuName": "都堆到",
+    "zuoPinName": "大的",
+    "aboutTest": "1111",
+    "aboutFunction": "11",
+    "aboutNews": "111",
+    "technologyWay": "1111",
+    "technologyCase": "11111",
+    "productIntroduce": "1111",
+    "adress": "32432",
+    "teamMateOneName": "大的",
+    "teamMateOneClass": "的",
+    "teamMateOneTelephone": "41",
+    "teamMateTwoName": "都堆到",
+    "teamMateTwoClass": "d",
+    "teamMateTwoTelephone": "痘痘",
+    "teamMateThreeName": "",
+    "teamMateThreeClass": "",
+    "teamMateThreeTelephone": "",
+    "teamMateFourName": "",
+    "teamMateFourClass": "",
+    "teamMateFourTelephone": "",
+    "school": "都堆到32"
+  },
+  "imgUrl": "http://47.106.105.117:8083/file/地方大342432/photo/ppt2.png",
+  "file1Url": "http://47.106.105.117:8083/file/地方大342432/file/ppt2.png",
+  "file2Url": "http://47.106.105.117:8083/file/地方大342432/file/QQ截图20180527154237.png"
+}
+```
+
 
 ### 对竞赛报名表进行评分接口 ###
 请求地址：http://ip:8083/secure/submitGrade
@@ -158,6 +201,7 @@ header必须带上token
 ```
 
 
+### 获取竞赛成员excel表接口 ###
 
 ### 获取加入我们数据库所有成员列表 ###
 请求地址：http://ip:8083/secure/joinUsMembers
@@ -205,11 +249,19 @@ header必须带上Token
 }
 ```
 
-### 获取加入我们某位成员具体的接口 ###
-接口地址：
-
+### 群发邮件接口 ###
+请求地址：http://ip:8083/secure/sentMail
+请求方法：post
+注意：header必须带上Token
 ```json
-
+{
+	"subject" : "主题",
+	"content" : "哈哈哈",
+	"toPeople":[{
+		"email":"756343483@qq.com"
+	},
+	{
+		"email":"756343483@qq.com"
+	}]
+}
 ```
-
-

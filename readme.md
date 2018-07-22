@@ -3,6 +3,9 @@ ip为：47.106.105.117
 token格式如下：   </br>
 key为：authorization  </br>
 value：eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlckFkbWluIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTMyMjUyMjQ5fQ.tudjFor0qFaHQB5NR9bnSdktqvfhFxY4SHqG9L3HVFo
+  UzI1NiJ9.eyJzdWIiOiJzdXBlckFkbWluIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTMyMjUyMjQ5fQ.tudjFor0qFaHQB5NR9bnSdktqvfhFxY4SHqG9L3HVFo
+  </br>
+以上value仅供参考，实际值得靠登陆后获得
 ## 登陆接口 ##
 请求地址：http://ip:8083/login
 发送数据如下

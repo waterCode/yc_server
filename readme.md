@@ -1,7 +1,7 @@
 ## 接口文档 ##
 ip为：47.106.105.117
-token格式如下：key和value分别如下
-key为：authorization
+token格式如下：   </br>
+key为：authorization  </br>
 value：eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlckFkbWluIiwicm9sZXMiOiJ1c2VyIiwiaWF0IjoxNTMyMjUyMjQ5fQ.tudjFor0qFaHQB5NR9bnSdktqvfhFxY4SHqG9L3HVFo
 ## 登陆接口 ##
 请求地址：http://ip:8083/login
@@ -25,15 +25,16 @@ value：eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlckFkbWluIiwicm9sZXMiOiJ1c2VyIiwiaWF
 ```
 token加密字符串，以后每次请求特别是涉及权限都要。
 role表示权限：
-    superAdmin：最高级管理员，拥有分配权限功能
-    admin：没有分配账号权限功能，但有评分功能
-    member：普通成员，没有任何权限
-userName表示用户名字
-result：true表示用户密码正确，false表示用户密码错误
+    superAdmin：最高级管理员，拥有分配权限功能。
+    admin：没有分配账号权限功能，但有评分功能。
+    member：普通成员，没有任何权限。
+userName表示用户名字。
+result：true表示用户密码正确，false表示用户密码错误。
 
 
 ## 加入我们接口 ##
 请求地址：http://ip:8083/team/joinUs
+请求格式为json，各字段参考如下：
 ```
               joinerName:'',//加入者名字
               college:'',//大学

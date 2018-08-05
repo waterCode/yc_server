@@ -186,7 +186,7 @@ header必须带上token
 ### 对竞赛报名表进行评分接口 ###
 请求地址：http://ip:8083/secure/submitGrade
 请求方法：post
-注意：header必须带上token
+注意：header必须带上token，只有管理员才有权限
 请求体如下：
 ```
         {
@@ -276,7 +276,9 @@ header必须带上Token
 		"email":"756343483@qq.com"
 	},
 	{
-		"email":"756343483@qq.com"
+		"email":"8104374199@qq.com"
 	}]
 }
+以json格式数组方式提交上去
+
 ```

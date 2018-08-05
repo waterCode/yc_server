@@ -12,4 +12,6 @@ public class RegistrationFormListResult extends BaseResult{
     public void setRegistrationFormList(List<RegistrationForm> registrationFormList) {
         this.registrationFormList = registrationFormList;
     }
+
+
 }

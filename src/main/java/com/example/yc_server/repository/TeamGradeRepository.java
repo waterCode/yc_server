@@ -8,4 +8,6 @@ import java.util.List;
 public interface TeamGradeRepository extends JpaRepository<GradeTeam,Integer> {
 
     public List<GradeTeam> findByCaptionNameAndScorerName(String captionName,String scorerName);
+
+    List<GradeTeam> findByCaptionName(String captionName);
 }

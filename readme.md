@@ -129,12 +129,42 @@ let data = new FormData();
     }
   ]
 }
+
 ```
 
 ### 获取所有竞赛成员列表接口 ###
 请求地址：http://ip:8083/secure/participants
 header必须带上token
 拥有此权限：管理员和超级管理员
+请求方法：get
+返回格式
+```
+{
+  "result": true,
+  "message": "",
+  "data": [
+    {
+      "id": 50,
+      "captionName": "钟敏对的",
+      "duiWuName": "在这种",
+      "phoneNum": "18813293231",
+      "newGrade": 80,
+      "otherGrade": 80,
+      "practiceGrade": 80
+    },
+    {
+      "id": 51,
+      "captionName": "测试",
+      "duiWuName": "23431",
+      "phoneNum": "18813294341",
+      "newGrade": -1,
+      "otherGrade": -1,
+      "practiceGrade": -1
+    }
+    ]
+ }
+```
+有评分的返回分数，没有评分的则返回-1；
 
 ### 获取某位竞赛成员详细信息
 请求地址：http://ip:8083/secure/getRegistrationForm?id=xxx

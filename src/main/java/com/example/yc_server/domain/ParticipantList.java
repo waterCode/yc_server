@@ -2,11 +2,30 @@ package com.example.yc_server.domain;
 
 public class ParticipantList {
 
+    private int id;
     private String captionName;
     private String duiWuName;
+    private String phoneNum;
     private int newGrade=-1;
     private int otherGrade=-1;
     private int practiceGrade=-1;
+
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCaptionName() {
         return captionName;

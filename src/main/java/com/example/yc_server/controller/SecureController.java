@@ -180,7 +180,7 @@ public class SecureController {
             em.getTransaction().begin();
             Query query = null;
             //定义SQL，可以多个表关联查询
-            String sql = "select registration_form.caption_name,dui_wu_name,new_grade,other_grade,practice_grade from registration_form left join grade_team on registration_form.caption_name=grade_team.caption_name";
+            String sql = "select registration_form.caption_name,dui_wu_name,new_grade,other_grade,practice_grade,registration_form.id,telephone from registration_form left join grade_team on registration_form.caption_name=grade_team.caption_name";
             //创建原生SQL查询QUERY实例
             query = em.createNativeQuery(sql);
             //执行查询，返回的是对象数组(Object[])列表,
@@ -199,6 +199,8 @@ public class SecureController {
                     data.setOtherGrade((Integer) o[3]);
                 if (o[4] != null)
                     data.setPracticeGrade((Integer) o[4]);
+                data.setId(Integer.parseInt( o[5].toString()));
+                data.setPhoneNum((String) o[6]);
                 participantLists.add(data);
             }
             result.setData(participantLists);
@@ -258,40 +260,46 @@ public class SecureController {
     }
 
     @GetMapping("/getExcel")
-    public void getExcel(HttpServletResponse response) throws IOException {
+    public void getExcel(HttpServletRequest request,HttpServletResponse response) throws IOException {
 
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("报名表集合");
 
-        List<RegistrationForm> registrationFormList = competitionFromRepository.findAll();
+        ParticipantListResult result = getParticipants(request);
+        //List<RegistrationForm> registrationFormList = competitionFromRepository.findAll();
 
-        String fileName = "userinf" + ".xls";//设置要导出的文件的名字
-        //新增数据行，并且设置单元格数据
+        if(result.isResult()) {
+            String fileName = "userinf" + ".xls";//设置要导出的文件的名字
+            //新增数据行，并且设置单元格数据
 
-        int rowNum = 1;
+            int rowNum = 1;
 
-        String[] headers = {"id", "队长名", "队伍名", "电话号码"};
-        //headers表示excel表中第一行的表头
+            String[] headers = {"id", "队长名", "队伍名", "电话号码", "创新分", "实践分", "其他分"};
+            //headers表示excel表中第一行的表头
 
-        HSSFRow row = sheet.createRow(0);
-        //在excel表中添加表头
+            HSSFRow row = sheet.createRow(0);
+            //在excel表中添加表头
 
-        for (int i = 0; i < headers.length; i++) {
-            HSSFCell cell = row.createCell(i);
-            HSSFRichTextString text = new HSSFRichTextString(headers[i]);
-            cell.setCellValue(text);
-        }
+            for (int i = 0; i < headers.length; i++) {
+                HSSFCell cell = row.createCell(i);
+                HSSFRichTextString text = new HSSFRichTextString(headers[i]);
+                cell.setCellValue(text);
+            }
 
-        //在表中存放查询到的数据放入对应的列
-        for (RegistrationForm teacher : registrationFormList) {
-            HSSFRow row1 = sheet.createRow(rowNum);
-            row1.createCell(0).setCellValue(teacher.getId());
-            row1.createCell(1).setCellValue(teacher.getCaptionName());
-            row1.createCell(2).setCellValue(teacher.getDuiWuName());
-            row1.createCell(3).setCellValue(teacher.getTelephone());
-            rowNum++;
-        }
+            List<ParticipantList> list = result.getData();
+            //在表中存放查询到的数据放入对应的列
+            for (ParticipantList info : list) {
+                HSSFRow row1 = sheet.createRow(rowNum);
+                row1.createCell(0).setCellValue(info.getId());
+                row1.createCell(1).setCellValue(info.getCaptionName());
+                row1.createCell(2).setCellValue(info.getDuiWuName());
+                row1.createCell(3).setCellValue(info.getPhoneNum());
+                row1.createCell(4).setCellValue(info.getNewGrade());
+                row1.createCell(5).setCellValue(info.getPracticeGrade());
+                row1.createCell(6).setCellValue(info.getOtherGrade());
+                rowNum++;
+            }
        /* //生成文件
         File file = new File("Y://excel/");
         if(!file.exists()){
@@ -300,10 +308,11 @@ public class SecureController {
         File file1 = new File("Y://excel/"+fileName);
         OutputStream out  = new FileOutputStream(file1);
         workbook.write(out);*/
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
-        //response.flushBuffer();
-        workbook.write(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+            //response.flushBuffer();
+            workbook.write(response.getOutputStream());
+        }
 
     }
 

@@ -18,7 +18,7 @@ public class EmailService {
     public void sentEmail(String to,String subject,String content){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("810437416@qq.com");
-        message.setTo("756343483@qq.com");
+        message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
         try {

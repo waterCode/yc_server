@@ -177,14 +177,17 @@ public class SecureController {
 
             EntityManager em = emf.createEntityManager();
             //加了这句就不会报错
-            em.getTransaction().begin();
+           // em.getTransaction().begin();
+
             Query query = null;
             //定义SQL，可以多个表关联查询
             String sql = "select registration_form.caption_name,dui_wu_name,new_grade,other_grade,practice_grade,registration_form.id,telephone from registration_form left join grade_team on registration_form.caption_name=grade_team.caption_name";
             //创建原生SQL查询QUERY实例
             query = em.createNativeQuery(sql);
+
             //执行查询，返回的是对象数组(Object[])列表,
             //每一个对象数组存的是相应的实体属性
+
             List resultList = query.getResultList();
             List<ParticipantList> participantLists = new ArrayList<>();
             for (int i = 0; i < resultList.size(); i++) {
@@ -205,6 +208,7 @@ public class SecureController {
             }
             result.setData(participantLists);
             result.setResult(true);
+            em.close();
 
         } else {
             result.setResult(false);

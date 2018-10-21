@@ -13,4 +13,12 @@ public interface JoinUsRepository  extends JpaRepository<JoinUsForm,Long> {
 
     @Override
     Optional<JoinUsForm> findById(Long aLong);
+
+
+    @Override
+    void deleteById(Long id);
+
+
+    @Override
+    void deleteAll();
 }

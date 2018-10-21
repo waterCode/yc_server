@@ -9,4 +9,12 @@ public interface CompetitionFromRepository extends JpaRepository<RegistrationFor
 
     @Override
     Optional<RegistrationForm> findById(Long aLong);
+
+
+    @Override
+    void deleteById(Long id);
+
+
+    @Override
+    void deleteAll();
 }

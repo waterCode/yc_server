@@ -9,7 +9,16 @@ public class ParticipantList {
     private int newGrade=-1;
     private int otherGrade=-1;
     private int practiceGrade=-1;
+    private String workNames;
 
+
+    public String getWorkNames() {
+        return workNames;
+    }
+
+    public void setWorkNames(String workNames) {
+        this.workNames = workNames;
+    }
 
     public String getPhoneNum() {
         return phoneNum;

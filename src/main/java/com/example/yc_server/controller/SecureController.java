@@ -106,6 +106,76 @@ public class SecureController {
 
     }
 
+    @GetMapping("/RegistrationForm/deleteById")
+    public BaseResult deleteRegistrationFormById(@RequestParam(value = "id", required = true) Long id, HttpServletRequest request){
+        BaseResult result = new BaseResult();
+        if(isSuperAdmin(request)){
+            Optional<RegistrationForm> byId = competitionFromRepository.findById(id);
+            if(byId.isPresent()) {
+                List<GradeTeam> byCaptionName = teamGradeRepository.findByCaptionName(byId.get().getCaptionName());
+                if(byCaptionName!=null){
+                    for(GradeTeam grade:byCaptionName){
+                        teamGradeRepository.delete(grade);
+                    }
+                }
+                competitionFromRepository.deleteById(id);
+
+                result.setResult(true);
+                result.setMessage("删除成功");
+            }else {
+                result.setResult(false);
+                result.setMessage("该id不存在");
+            }
+        }else {
+            result.setResult(false);
+            result.setMessage("你不是超级管理员");
+        }
+        return result;
+    }
+
+    @GetMapping("/JoinUsForm/deleteById")
+    public BaseResult deleteJoinUsFormById(@RequestParam(value = "id", required = true) Long id, HttpServletRequest request){
+        BaseResult result = new BaseResult();
+        if(isSuperAdmin(request)){
+            joinUsRepository.deleteById(id);
+            result.setResult(true);
+            result.setMessage("删除成功");
+        }else {
+            result.setResult(false);
+            result.setMessage("你不是超级管理员");
+        }
+        return result;
+    }
+
+    @GetMapping("/RegistrationForm/deleteAll")
+    public BaseResult deleteRegistrationFormByAll(HttpServletRequest request){
+        BaseResult result = new BaseResult();
+        if(isSuperAdmin(request)){
+            competitionFromRepository.deleteAll();
+            teamGradeRepository.deleteAll();
+            result.setResult(true);
+            result.setMessage("删除成功");
+        }else {
+            result.setResult(false);
+            result.setMessage("你不是超级管理员");
+        }
+        return result;
+    }
+
+    @GetMapping("/JoinUsForm/deleteAll")
+    public BaseResult deleteJoinUsFormByAll(HttpServletRequest request){
+        BaseResult result = new BaseResult();
+        if(isSuperAdmin(request)){
+            joinUsRepository.deleteAll();
+            result.setResult(true);
+            result.setMessage("删除成功");
+        }else {
+            result.setResult(false);
+            result.setMessage("你不是超级管理员");
+        }
+        return result;
+    }
+
 
     public boolean isAdmin(HttpServletRequest request) {
         // TODO: 2018/6/1 更改判断管理员逻辑
@@ -117,6 +187,19 @@ public class SecureController {
             return false;
         }
     }
+
+    public boolean isSuperAdmin(HttpServletRequest request) {
+        // TODO: 2018/6/1 更改判断管理员逻辑
+        Claims claims = (Claims) request.getAttribute("claims");
+        String role = claims.getSubject();
+        if (role.equals("superAdmin")) {//
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
     @GetMapping("/users")
     public GetUsersResult getUser(HttpServletRequest request) {
@@ -181,7 +264,7 @@ public class SecureController {
 
             Query query = null;
             //定义SQL，可以多个表关联查询
-            String sql = "select registration_form.caption_name,dui_wu_name,new_grade,other_grade,practice_grade,registration_form.id,telephone from registration_form left join grade_team on registration_form.caption_name=grade_team.caption_name";
+            String sql = "select registration_form.caption_name,dui_wu_name,new_grade,other_grade,practice_grade,registration_form.id,telephone,zuo_pin_name from registration_form left join grade_team on registration_form.caption_name=grade_team.caption_name";
             //创建原生SQL查询QUERY实例
             query = em.createNativeQuery(sql);
 
@@ -204,6 +287,7 @@ public class SecureController {
                     data.setPracticeGrade((Integer) o[4]);
                 data.setId(Integer.parseInt( o[5].toString()));
                 data.setPhoneNum((String) o[6]);
+                data.setWorkNames((String)o[7]);
                 participantLists.add(data);
             }
             result.setData(participantLists);
@@ -279,7 +363,7 @@ public class SecureController {
 
             int rowNum = 1;
 
-            String[] headers = {"id", "队长名", "队伍名", "电话号码", "创新分", "实践分", "其他分"};
+            String[] headers = {"id","作品名","队长名", "队伍名", "电话号码", "创新分", "实践分", "其他分"};
             //headers表示excel表中第一行的表头
 
             HSSFRow row = sheet.createRow(0);
@@ -296,12 +380,13 @@ public class SecureController {
             for (ParticipantList info : list) {
                 HSSFRow row1 = sheet.createRow(rowNum);
                 row1.createCell(0).setCellValue(info.getId());
-                row1.createCell(1).setCellValue(info.getCaptionName());
-                row1.createCell(2).setCellValue(info.getDuiWuName());
-                row1.createCell(3).setCellValue(info.getPhoneNum());
-                row1.createCell(4).setCellValue(info.getNewGrade());
-                row1.createCell(5).setCellValue(info.getPracticeGrade());
-                row1.createCell(6).setCellValue(info.getOtherGrade());
+                row1.createCell(1).setCellValue(info.getWorkNames());
+                row1.createCell(2).setCellValue(info.getCaptionName());
+                row1.createCell(3).setCellValue(info.getDuiWuName());
+                row1.createCell(4).setCellValue(info.getPhoneNum());
+                row1.createCell(5).setCellValue(info.getNewGrade());
+                row1.createCell(6).setCellValue(info.getPracticeGrade());
+                row1.createCell(7).setCellValue(info.getOtherGrade());
                 rowNum++;
             }
        /* //生成文件

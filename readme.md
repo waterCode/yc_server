@@ -12,7 +12,7 @@ value：eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXBlckFkbWluIiwicm9sZXMiOiJ1c2VyIiwiaWF
 ```
 {
 	"userName" : "admin",
-	"password" : "admin"
+	"password" : "aaaa"
 }
 ```
 返回
@@ -311,4 +311,27 @@ header必须带上Token
 }
 以json格式数组方式提交上去
 
+```
+
+### 删除加入我们成员信息 ###
+有两种删除方式，一种通过Id，一种全部删除
+权限：超级管理员，同样得带上token
+方法：get
+```
+http://host/secure/JoinUsForm/deleteAll
+为删除全部
+http://localhost:8083/secure/JoinUsForm/deleteById?id=54
+删除id为54的数据
+```
+
+
+### 删除参加竞赛成员信息 ###
+有两种删除方式，一种通过Id，一种全部删除
+权限：超级管理员，同样得带上token
+方法：get
+```
+http://localhost:8083/secure/RegistrationForm/deleteAll
+为删除全部
+http://localhost:8083/secure/RegistrationForm/deleteById?id=50
+删除id为54的数据
 ```
